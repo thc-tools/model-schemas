@@ -2,7 +2,6 @@
     "name": "@thc/model-schemas",
     "version": "1.0.0",
     "description": "Data Model standard ",
-    "main": "index.js",
     "scripts": {
         "pre-release": "standard-version",
         "pre-release-alpha": "standard-version --prerelease alpha",
@@ -10,7 +9,7 @@
         "release": "npm publish --access public && conventional-github-releaser -p angular && git push --follow-tags origin master",
         "release-alpha": "npm publish --tag alpha --access public && conventional-github-releaser -p angular && git push --follow-tags origin master",
         "release-beta": "npm publish --tag beta --access public && conventional-github-releaser -p angular && git push --follow-tags origin master",
-        "test": "node ./scr/schemas/test/test-script.js"
+        "test": "node scr/schemas/test/index.js"
     },
     "repository": {
         "type": "git",

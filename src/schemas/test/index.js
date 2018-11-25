@@ -2,10 +2,12 @@
 
 const Ajv = require('ajv');
 const fs = require('fs');
+const path = require('path');
+const schemaLocation = path.join(__dirname, "..", "model-data-schema.json");
+const compliantModelLocation = path.join(__dirname, "data/compliant-model.json");
+const nonCompliantModelLocation =  path.join(__dirname,"data/non-compliant-model.json");
 
-const schemaLocation = "../model-data-schema.json";
-const compliantModelLocation = "./compliant-model.json";
-const nonCompliantModelLocation = "./non-compliant-model.json";
+//TODO : improves those tests by using a js test framework
 
 // test models
 const compliantModel = JSON.parse(fs.readFileSync(compliantModelLocation));
