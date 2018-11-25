@@ -1,0 +1,109 @@
+{
+    "databases": [
+        {
+            "name": "Compliant-db",
+            "description": "a schema-compliant database",
+            "entities": [
+                {
+                    "name": "firstEntity",
+                    "description": "the first entity of the database",
+                    "fields": [
+                        {
+                            "name": "FEN_ID",
+                            "description": "first entity identifier",
+                            "domain": {
+                                "name": "DO_ID",
+                                "description": "domain ID",
+                                "sqlType": "numeric",
+                                "dataType": "Long"
+                            }
+                        },
+                        {
+                            "name": "NAME",
+                            "description": "first entity name",
+                            "domain": {
+                                "name": "DO_LIBELLE",
+                                "description": "domain libelle",
+                                "sqlType": "varchar",
+                                "dataType": "String"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "secondEntity",
+                    "description": "the first entity of the database",
+                    "fields": [
+                        {
+                            "name": "SEN_ID",
+                            "description": "second entity identifier",
+                            "domain": {
+                                "name": "DO_ID",
+                                "description": "domain ID",
+                                "sqlType": "numeric",
+                                "dataType": "Long"
+                            }
+                        },
+                        {
+                            "name": "NAME",
+                            "description": "second entity name",
+                            "domain": {
+                                "name": "DO_LIBELLE",
+                                "description": "domain libelle",
+                                "sqlType": "varchar",
+                                "dataType": "String"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "thirdEntity",
+                    "description": "the third entity of the database",
+                    "fields": [
+                        {
+                            "name": "TEN_ID",
+                            "description": "third entity identifier",
+                            "domain": {
+                                "name": "DO_ID",
+                                "description": "domain ID",
+                                "sqlType": "numeric",
+                                "dataType": "Long"
+                            }
+                        },
+                        {
+                            "name": "NAME",
+                            "description": "third entity identifier",
+                            "domain": {
+                                "name": "DO_LIBELLE",
+                                "description": "domain libelle",
+                                "sqlType": "varchar",
+                                "dataType": "String"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "relations": [
+                {
+                    "name": "FEN_SEN_ASSOCIATION",
+                    "description": "first and second entity association",
+                    "multiplicity": {
+                        "lowerBound": 0,
+                        "upperBound": "*"
+                    },
+                    "associates": [
+                        "firstEntity",
+                        "secondEntity"
+                    ]
+                },
+                {
+                    "name": "SEN_TEN_AGGREGATION",
+                    "description": "second and third entity aggregation",
+                    "owner": "secondEntity",
+                    "ownee": "thirdEntity"
+                }
+            ]
+        }
+    ],
+    "domains":[]
+}

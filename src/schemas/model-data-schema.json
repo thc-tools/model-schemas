@@ -1,0 +1,220 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "id": "http://github.com/thc-tools/schemas/udm.json",
+    "title": "Universal database model",
+    "description": "This schema describes a database data model, based on domains, entities and associations",
+    "default": null,
+    "definitions": {
+        "uid":{
+            "type": "string"
+        },
+        "domain": {
+            "type": "object",
+            "properties": {
+                "uid":{
+                    "$ref":"#/definitions/uid"
+                },
+                "name": {
+                    "type": "string",
+                    "pattern": "^DO_[A-Z0-9]+$"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "sqlType": {
+                    "type": "string"
+                },
+                "dataType": {
+                    "type": "string"
+                },
+                "precision": {
+                    "type": "integer"
+                },
+                "scale": {
+                    "type": "integer"
+                },
+                "length": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "name",
+                "description",
+                "sqlType",
+                "dataType"
+            ]
+        },
+        "field": {
+            "type": "object",
+            "properties": {
+                "uid":{
+                    "$ref":"#/definitions/uid"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "domain": {
+                     "$ref": "#/definitions/domain"
+                }
+            },
+            "required":[
+                "name",
+                "description",
+                "domain"   
+            ]
+        },
+        "entity": {
+            "type": "object",
+            "properties": {
+                "uid":{
+                    "$ref":"#/definitions/uid"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "fields": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/field"
+                    }
+                }
+            },
+            "required":[
+                "name",
+                "description"
+            ]
+        },
+        "multiplicityBoundary":{
+            "oneOf": [
+                {"type":"integer"},
+                {"const": "*"}
+            ]
+        },
+        "multiplicity":{
+            "type":"object",
+            "properties": {
+                "lowerBound":{
+                    "$ref": "#/definitions/multiplicityBoundary"
+                },
+                "UpperBound":{
+                    "$ref": "#/definitions/multiplicityBoundary"
+                }
+            }
+        },
+        "association": {
+            "type": "object",
+            "properties": {
+                "uid":{
+                    "$ref":"#/definitions/uid"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "multiplicity":{
+                    "$ref":"#/definitions/multiplicity"
+                },
+                "associates":{
+                    "type":"array",
+                    "uniqueItems": true,
+                    "items":{
+                        "oneOf":[
+                            {"$ref":"#/definitions/uid"},
+                            {"$ref":"#/definitions/entity"}
+                        ]
+                        
+                    }
+                }
+            },
+            "required": [
+                "name",
+                "description",
+                "multiplicity"
+            ]
+        },
+        "aggregation":{
+            "type": "object",
+            "properties": {
+                "uid":{
+                    "$ref":"#/definitions/uid"
+                },
+                "name":{
+                    "type":"string"
+                },
+                "description":{
+                    "type":"string"
+                },
+                "owner":{
+                    "oneOf":[
+                        {"$ref":"#/definitions/uid"},
+                        {"$ref":"#/definitions/entity"}
+                    ]
+                },
+                "ownee":{
+                    "oneOf":[
+                        {"$ref":"#/definitions/uid"},
+                        {"$ref":"#/definitions/entity"}
+                    ]
+                }
+            },
+            "required":[
+                "name",
+                "description",
+                "owner",
+                "ownee"
+            ]
+        },
+        "database": {
+            "type": "object",
+            "properties": {
+                "uid":{
+                    "$ref":"#/definitions/uid"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "entities": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity"
+                    }
+                },
+                "relations": {
+                    "type": "array",
+                    "items": {
+                        "anyOf": [
+                            {"$ref": "#/definitions/association"},
+                            {"$ref":"#/definitions/aggregation"}    
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    "type": "object",
+    "properties": {
+        "domains": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/domain"
+            }
+        },
+        "databases": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/database"
+            }
+        }
+    }
+}
