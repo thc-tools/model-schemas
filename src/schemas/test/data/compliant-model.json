@@ -1,22 +1,20 @@
 {
     "databases": [
         {
+            "guid": "e11af06735e549a9832cfda9228ae367",
             "name": "Compliant-db",
             "description": "a schema-compliant database",
             "entities": [
                 {
+                    "guid": "8e4bf6c80dc440779b35c3940ed4ba12",
                     "name": "firstEntity",
                     "description": "the first entity of the database",
                     "fields": [
                         {
+                            "guid": "7c89d48b824e41a5a3527f1877d916f1",
                             "name": "FEN_ID",
                             "description": "first entity identifier",
-                            "domain": {
-                                "name": "DO_ID",
-                                "description": "domain ID",
-                                "sqlType": "numeric",
-                                "dataType": "Long"
-                            }
+                            "domain": 
                         },
                         {
                             "name": "NAME",
@@ -37,12 +35,9 @@
                         {
                             "name": "SEN_ID",
                             "description": "second entity identifier",
-                            "domain": {
-                                "name": "DO_ID",
-                                "description": "domain ID",
-                                "sqlType": "numeric",
-                                "dataType": "Long"
-                            }
+                            "domain": "582b6c9f883b4224a3f7e64fe9b96e02"
+                             
+         
                         },
                         {
                             "name": "NAME",
@@ -63,13 +58,8 @@
                         {
                             "name": "TEN_ID",
                             "description": "third entity identifier",
-                            "domain": {
-                                "name": "DO_ID",
-                                "description": "domain ID",
-                                "sqlType": "numeric",
-                                "dataType": "Long"
-                            }
-                        },
+                            "domain": "582b6c9f883b4224a3f7e64fe9b96e02"
+                          },
                         {
                             "name": "NAME",
                             "description": "third entity identifier",
@@ -105,5 +95,13 @@
             ]
         }
     ],
-    "domains":[]
+    "domains":[
+      {
+        "guid": "582b6c9f883b4224a3f7e64fe9b96e02",
+        "name": "DO_ID",
+        "description": "domain ID",
+        "sqlType": "numeric",
+        "dataType": "Long"
+                            }
+    ]
 }
