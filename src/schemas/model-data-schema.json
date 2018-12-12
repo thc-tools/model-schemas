@@ -5,14 +5,15 @@
     "description": "This schema describes a database data model, based on domains, entities and associations",
     "default": null,
     "definitions": {
-        "uid":{
-            "type": "string"
+        "guid":{
+            "type": "string",
+            "pattern":"^[0-9A-F]{32}$"
         },
         "domain": {
             "type": "object",
             "properties": {
-                "uid":{
-                    "$ref":"#/definitions/uid"
+                "guid":{
+                    "$ref":"#/definitions/guid"
                 },
                 "name": {
                     "type": "string",
@@ -47,8 +48,8 @@
         "field": {
             "type": "object",
             "properties": {
-                "uid":{
-                    "$ref":"#/definitions/uid"
+                "guid":{
+                    "$ref":"#/definitions/guid"
                 },
                 "name": {
                     "type": "string"
@@ -57,7 +58,7 @@
                     "type": "string"
                 },
                 "domain": {
-                     "$ref": "#/definitions/domain"
+                     "$ref": "#/definitions/guid"
                 }
             },
             "required":[
@@ -69,8 +70,8 @@
         "entity": {
             "type": "object",
             "properties": {
-                "uid":{
-                    "$ref":"#/definitions/uid"
+                "guid":{
+                    "$ref":"#/definitions/guid"
                 },
                 "name": {
                     "type": "string"
@@ -80,6 +81,7 @@
                 },
                 "fields": {
                     "type": "array",
+                    "uniqueItems": true
                     "items": {
                         "$ref": "#/definitions/field"
                     }
@@ -107,11 +109,22 @@
                 }
             }
         },
+        "navigability":{
+            "type":"object",
+            "properties":{
+              "lowerEnd":{
+                "type": ["boolean","null"]
+              },
+              "upperEnd":{
+                "type": ["boolean","null"]
+              },
+            }
+        },
         "association": {
             "type": "object",
             "properties": {
-                "uid":{
-                    "$ref":"#/definitions/uid"
+                "guid":{
+                    "$ref":"#/definitions/guid"
                 },
                 "name": {
                     "type": "string"
@@ -122,29 +135,30 @@
                 "multiplicity":{
                     "$ref":"#/definitions/multiplicity"
                 },
+                "navigability":{
+                    "$ref":"#/definitions/navigability"
+                },
                 "associates":{
                     "type":"array",
                     "uniqueItems": true,
                     "items":{
-                        "oneOf":[
-                            {"$ref":"#/definitions/uid"},
-                            {"$ref":"#/definitions/entity"}
-                        ]
-                        
+                       "$ref":"#/definitions/guid"                  
                     }
                 }
             },
             "required": [
                 "name",
                 "description",
-                "multiplicity"
+                "multiplicity",
+                "navigability",
+                "associates"
             ]
         },
         "aggregation":{
             "type": "object",
             "properties": {
-                "uid":{
-                    "$ref":"#/definitions/uid"
+                "guid":{
+                    "$ref":"#/definitions/guid"
                 },
                 "name":{
                     "type":"string"
@@ -153,16 +167,10 @@
                     "type":"string"
                 },
                 "owner":{
-                    "oneOf":[
-                        {"$ref":"#/definitions/uid"},
-                        {"$ref":"#/definitions/entity"}
-                    ]
+                    "$ref":"#/definitions/guid"
                 },
                 "ownee":{
-                    "oneOf":[
-                        {"$ref":"#/definitions/uid"},
-                        {"$ref":"#/definitions/entity"}
-                    ]
+                    "$ref":"#/definitions/guid"
                 }
             },
             "required":[
@@ -175,8 +183,8 @@
         "database": {
             "type": "object",
             "properties": {
-                "uid":{
-                    "$ref":"#/definitions/uid"
+                "guid":{
+                    "$ref":"#/definitions/guid"
                 },
                 "name": {
                     "type": "string"
@@ -186,6 +194,7 @@
                 },
                 "entities": {
                     "type": "array",
+                    "uniqueItems": true,
                     "items": {
                         "$ref": "#/definitions/entity"
                     }
