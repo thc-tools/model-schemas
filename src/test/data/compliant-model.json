@@ -1,0 +1,112 @@
+{
+    "databases": [
+        {
+            "guid": "e11af06735e549a9832cfda9228ae367",
+            "name": "Compliant-db",
+            "description": "a schema-compliant database",
+            "entities": [
+                {
+                    "guid": "8e4bf6c80dc440779b35c3940ed4ba12",
+                    "name": "firstEntity",
+                    "description": "the first entity of the database",
+                    "fields": [
+                        {
+                            "guid": "7c89d48b824e41a5a3527f1877d916f1",
+                            "name": "FEN_ID",
+                            "description": "first entity identifier",
+                            "domain": "582b6c9f883b4224a3f7e64fe9b96e02"
+                        },
+                        {
+                            "guid":"6e108d284bae461c89fda455c03a1b30",
+                            "name": "NAME",
+                            "description": "first entity name",
+                            "domain": "5800376fc06442bca29c63d0c700b269"
+                        }
+                    ]
+                },
+                {
+                    "guid":"246a4536d89940988ffd76810684f70a",
+                    "name": "secondEntity",
+                    "description": "the first entity of the database",
+                    "fields": [
+                        {
+                            "guid": "ce97cb20295c4df2b03673cc81a54b5f",
+                            "name": "SEN_ID",
+                            "description": "second entity identifier",
+                            "domain": "582b6c9f883b4224a3f7e64fe9b96e02"
+                             
+         
+                        },
+                        {
+                            "guid":"4726b4014bac472b8b8de8d6eab29f6e",
+                            "name": "NAME",
+                            "description": "second entity name",
+                            "domain": "5800376fc06442bca29c63d0c700b269"
+                        }
+                    ]
+                },
+                {
+                    "guid":"1bb7ac51803c4cb9a4e75d2d440d5b09",
+                    "name": "thirdEntity",
+                    "description": "the third entity of the database",
+                    "fields": [
+                        {
+                            "guid":"a83a6f98a64a4867a9a781ff6e3d00e4",
+                            "name": "TEN_ID",
+                            "description": "third entity identifier",
+                            "domain": "582b6c9f883b4224a3f7e64fe9b96e02"
+                          },
+                        {
+                            "guid":"7d6a2020dd774fd9be5f34c6f4747332",
+                            "name": "NAME",
+                            "description": "third entity identifier",
+                            "domain": "5800376fc06442bca29c63d0c700b269"
+                        }
+                    ]
+                }
+            ],
+            "relations": [
+                {
+                    "guid":"3fb20420ff1b4361be6a053f19856193",
+                    "name": "FEN_SEN_ASSOCIATION",
+                    "description": "first and second entity association",
+                    "multiplicity": {
+                        "lowerBound": 0,
+                        "upperBound": "*"
+                    },
+                    "associates": [
+                        "8e4bf6c80dc440779b35c3940ed4ba12",
+                        "246a4536d89940988ffd76810684f70a"
+                    ],
+                    "navigability":{
+                        "lowerEnd":true,
+                        "upperEnd":false
+                    }
+                },
+                {
+                    "guid":"4b26d103eb614cd89b05ea72476ecaaf",
+                    "name": "SEN_TEN_AGGREGATION",
+                    "description": "second and third entity aggregation",
+                    "ownee": "1bb7ac51803c4cb9a4e75d2d440d5b09",
+                    "owner": "246a4536d89940988ffd76810684f70a"
+                }
+            ]
+        }
+    ],
+    "domains":[
+      {
+        "guid":"582b6c9f883b4224a3f7e64fe9b96e02",
+        "name": "DO_ID",
+        "description": "domain ID",
+        "sqlType": "numeric",
+        "dataType": "Long"
+                            },
+    {
+        "guid": "5800376fc06442bca29c63d0c700b269",
+        "name": "DO_LIBELLE",
+        "description": "domain libelle",
+        "sqlType": "varchar",
+        "dataType": "String"
+    }
+    ]
+}
