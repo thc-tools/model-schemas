@@ -22,6 +22,9 @@
                             "description": "first entity name",
                             "domain": "5800376fc06442bca29c63d0c700b269"
                         }
+                    ],
+                    "key":[
+                        "7c89d48b824e41a5a3527f1877d916f1"
                     ]
                 },
                 {
@@ -43,6 +46,9 @@
                             "description": "second entity name",
                             "domain": "5800376fc06442bca29c63d0c700b269"
                         }
+                    ],
+                    "key":[
+                        "ce97cb20295c4df2b03673cc81a54b5f"
                     ]
                 },
                 {
@@ -62,6 +68,38 @@
                             "description": "third entity identifier",
                             "domain": "5800376fc06442bca29c63d0c700b269"
                         }
+                    ],
+                    "key":[
+                        "a83a6f98a64a4867a9a781ff6e3d00e4"
+                    ]
+                },
+                {
+                    "guid":"1bb7ac51803c4cb9a4e75d2d440d5b09",
+                    "name": "fourthEntity",
+                    "description": "the fourth entity of the database",
+                    "fields": [
+                        {
+                            "guid":"a83a6f98a64a4867a9a781ff6e3d00e4",
+                            "name": "FON_ID",
+                            "description": "fourth entity identifier",
+                            "domain": "582b6c9f883b4224a3f7e64fe9b96e02"
+                        },
+                        {
+                            "guid":"156dbf0e83bf4c8a829485b2c6a5af4e",
+                            "name": "FON_SID",
+                            "description": "fourth entity second identifier",
+                            "domain": "582b6c9f883b4224a3f7e64fe9b96e02"
+                        },
+                        {
+                            "guid":"7d6a2020dd774fd9be5f34c6f4747332",
+                            "name": "NAME",
+                            "description": "third entity identifier",
+                            "domain": "5800376fc06442bca29c63d0c700b269"
+                        }
+                    ],
+                    "key":[
+                        "a83a6f98a64a4867a9a781ff6e3d00e4",
+                        "156dbf0e83bf4c8a829485b2c6a5af4e"
                     ]
                 }
             ],
