@@ -1,13 +1,178 @@
 {
     "$schema": "http://json-schema.org/schema#",
-    "id": "http://github.com/thc-tools/schemas/udm.json",
+    "$id": "http://github.com/thc-tools/schemas/udm.json",
     "title": "Universal database model",
     "description": "This schema describes a database data model, based on domains, entities and associations",
     "default": null,
-    "definitions": {
-        "guid":{
-            "type": "string",
-            "pattern":"^[0-9A-F]{32}$"
+    "definitions": {   
+        "database": {
+            "type": "object",
+            "properties": {
+                "guid":{
+                    "$ref":"#/definitions/guid"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "entities": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                        "$ref": "#/definitions/entity"
+                    }
+                },
+                "relations": {
+                    "type": "array",
+                    "items": {
+                        "oneOf": [
+                            {"$ref": "#/definitions/association"},
+                            {"$ref":"#/definitions/aggregation"}    
+                        ]
+                    }
+                }
+            }
+        },
+        "entity": {
+            "type": "object",
+            "properties": {
+                "guid":{
+                    "$ref":"#/definitions/guid"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "fields": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                        "$ref": "#/definitions/field"
+                    }
+                }
+            },
+            "required":[
+                "guid",
+                "name",
+                "description"
+            ]
+        },
+        "association": {
+            "type": "object",
+            "properties": {
+                "guid":{
+                    "$ref":"#/definitions/guid"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "multiplicity":{
+                    "$ref":"#/definitions/multiplicity"
+                },
+                "navigability":{
+                    "$ref":"#/definitions/navigability"
+                },
+                "associates":{
+                    "type":"array",
+                    "uniqueItems": true,
+                    "items":{
+                       "$ref":"#/definitions/guid"                  
+                    }
+                }
+            },
+            "required": [
+                "guid",
+                "name",
+                "description",
+                "multiplicity",
+                "navigability",
+                "associates"
+            ]
+        },
+        "aggregation":{
+            "type": "object",
+            "properties": {
+                "guid":{
+                    "$ref":"#/definitions/guid"
+                },
+                "name":{
+                    "type":"string"
+                },
+                "description":{
+                    "type":"string"
+                },
+                "owner":{
+                    "$ref":"#/definitions/guid"
+                },
+                "ownee":{
+                    "$ref":"#/definitions/guid"
+                }
+            },
+            "required":[
+                "guid",
+                "name",
+                "description",
+                "owner",
+                "ownee"
+            ]
+        },
+        "multiplicity":{
+            "type":"object",
+            "properties": {
+                "lowerBound":{
+                    "$ref": "#/definitions/multiplicityBoundary"
+                },
+                "UpperBound":{
+                    "$ref": "#/definitions/multiplicityBoundary"
+                }
+            }
+        },
+        "multiplicityBoundary":{
+            "oneOf": [
+                {"type":"integer"},
+                {"const": "*"}
+            ]
+        },
+        "navigability":{
+            "type":"object",
+            "properties":{
+              "lowerEnd":{
+                "type": ["boolean","null"]
+              },
+              "upperEnd":{
+                "type": ["boolean","null"]
+              }
+            }
+        },
+        "field": {
+            "type": "object",
+            "properties": {
+                "guid":{
+                    "$ref":"#/definitions/guid"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "domain": {
+                     "$ref": "#/definitions/guid"
+                }
+            },
+            "required":[
+                "guid",
+                "name",
+                "description",
+                "domain"   
+            ]
         },
         "domain": {
             "type": "object",
@@ -39,190 +204,30 @@
                 }
             },
             "required": [
+                "guid",
                 "name",
                 "description",
                 "sqlType",
                 "dataType"
             ]
         },
-        "field": {
-            "type": "object",
-            "properties": {
-                "guid":{
-                    "$ref":"#/definitions/guid"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "domain": {
-                     "$ref": "#/definitions/guid"
-                }
-            },
-            "required":[
-                "name",
-                "description",
-                "domain"   
-            ]
-        },
-        "entity": {
-            "type": "object",
-            "properties": {
-                "guid":{
-                    "$ref":"#/definitions/guid"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "fields": {
-                    "type": "array",
-                    "uniqueItems": true
-                    "items": {
-                        "$ref": "#/definitions/field"
-                    }
-                }
-            },
-            "required":[
-                "name",
-                "description"
-            ]
-        },
-        "multiplicityBoundary":{
-            "oneOf": [
-                {"type":"integer"},
-                {"const": "*"}
-            ]
-        },
-        "multiplicity":{
-            "type":"object",
-            "properties": {
-                "lowerBound":{
-                    "$ref": "#/definitions/multiplicityBoundary"
-                },
-                "UpperBound":{
-                    "$ref": "#/definitions/multiplicityBoundary"
-                }
-            }
-        },
-        "navigability":{
-            "type":"object",
-            "properties":{
-              "lowerEnd":{
-                "type": ["boolean","null"]
-              },
-              "upperEnd":{
-                "type": ["boolean","null"]
-              },
-            }
-        },
-        "association": {
-            "type": "object",
-            "properties": {
-                "guid":{
-                    "$ref":"#/definitions/guid"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "multiplicity":{
-                    "$ref":"#/definitions/multiplicity"
-                },
-                "navigability":{
-                    "$ref":"#/definitions/navigability"
-                },
-                "associates":{
-                    "type":"array",
-                    "uniqueItems": true,
-                    "items":{
-                       "$ref":"#/definitions/guid"                  
-                    }
-                }
-            },
-            "required": [
-                "name",
-                "description",
-                "multiplicity",
-                "navigability",
-                "associates"
-            ]
-        },
-        "aggregation":{
-            "type": "object",
-            "properties": {
-                "guid":{
-                    "$ref":"#/definitions/guid"
-                },
-                "name":{
-                    "type":"string"
-                },
-                "description":{
-                    "type":"string"
-                },
-                "owner":{
-                    "$ref":"#/definitions/guid"
-                },
-                "ownee":{
-                    "$ref":"#/definitions/guid"
-                }
-            },
-            "required":[
-                "name",
-                "description",
-                "owner",
-                "ownee"
-            ]
-        },
-        "database": {
-            "type": "object",
-            "properties": {
-                "guid":{
-                    "$ref":"#/definitions/guid"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "entities": {
-                    "type": "array",
-                    "uniqueItems": true,
-                    "items": {
-                        "$ref": "#/definitions/entity"
-                    }
-                },
-                "relations": {
-                    "type": "array",
-                    "items": {
-                        "anyOf": [
-                            {"$ref": "#/definitions/association"},
-                            {"$ref":"#/definitions/aggregation"}    
-                        ]
-                    }
-                }
-            }
+        "guid":{
+            "type": "string",
+            "pattern":"[0-9a-f]{32}$"
         }
     },
-    "type": "object",
+    "type":"object",
     "properties": {
-        "domains": {
-            "type": "array",
-            "items": {
-                "$ref": "#/definitions/domain"
-            }
-        },
         "databases": {
             "type": "array",
             "items": {
                 "$ref": "#/definitions/database"
+            }
+        },
+        "domains": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/domain"
             }
         }
     }
