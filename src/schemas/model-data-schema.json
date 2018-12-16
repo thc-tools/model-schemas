@@ -150,10 +150,10 @@
         "navigability":{
             "type":"object",
             "properties":{
-              "lowerEnd":{
+              "lowerBound":{
                 "type": ["boolean","null"]
               },
-              "upperEnd":{
+              "upperBound":{
                 "type": ["boolean","null"]
               }
             }

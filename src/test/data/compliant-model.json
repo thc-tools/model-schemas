@@ -117,8 +117,8 @@
                         "246a4536d89940988ffd76810684f70a"
                     ],
                     "navigability":{
-                        "lowerEnd":true,
-                        "upperEnd":false
+                        "lowerBound":true,
+                        "upperBound":false
                     }
                 },
                 {
