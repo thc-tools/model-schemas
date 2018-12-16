@@ -9,7 +9,7 @@
         "release": "npm publish --access public && conventional-github-releaser -p angular && git push --follow-tags origin master",
         "release-alpha": "npm publish --tag alpha --access public && conventional-github-releaser -p angular && git push --follow-tags origin master",
         "release-beta": "npm publish --tag beta --access public && conventional-github-releaser -p angular && git push --follow-tags origin master",
-        "test": "node ./scr/schemas/test/index.js"
+        "test": "jest"
     },
     "repository": {
         "type": "git",
@@ -29,6 +29,7 @@
     "devDependencies": {
         "ajv": "^6.5.5",
         "conventional-github-releaser": "3.1.2",
+        "jest": "^23.6.0",
         "standard-version": "4.4.0"
     },
     "dependencies": {}
