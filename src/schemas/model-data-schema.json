@@ -129,7 +129,7 @@
                 "lowerBound":{
                     "$ref": "#/definitions/multiplicityBoundary"
                 },
-                "UpperBound":{
+                "upperBound":{
                     "$ref": "#/definitions/multiplicityBoundary"
                 }
             }
