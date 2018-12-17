@@ -119,7 +119,13 @@
                     "navigability":{
                         "lowerBound":true,
                         "upperBound":false
-                    }
+                    },
+                    "constraints":[
+                        [
+                            "7c89d48b824e41a5a3527f1877d916f1",
+                            "ce97cb20295c4df2b03673cc81a54b5f"
+                        ]
+                    ]
                 },
                 {
                     "guid":"4b26d103eb614cd89b05ea72476ecaaf",

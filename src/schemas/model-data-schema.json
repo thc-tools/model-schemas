@@ -92,7 +92,16 @@
                 },
                 "fields":{
                     "$ref":"#/definitions/field"
+                },
+                "constraints":{
+                    "type":"array",
+                    "items":{
+                        "oneOf":[
+                            {"$ref": "#/definitions/unicityConstraint"}
+                        ]
+                    }
                 }
+
             },
             "required": [
                 "guid",
@@ -156,6 +165,13 @@
               "upperBound":{
                 "type": ["boolean","null"]
               }
+            }
+        },
+        "unicityConstraint":{
+            "type":"array",
+            "uniqueItems": true,
+            "items":{
+                "$ref":"#/definitions/guid"
             }
         },
         "field": {
