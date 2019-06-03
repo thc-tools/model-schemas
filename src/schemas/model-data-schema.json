@@ -1,15 +1,14 @@
 {
-    "$schema": "http://json-schema.org/schema#",
-    "$id": "http://github.com/thc-tools/schemas/udm.json",
     "title": "Universal database model",
+    "$id": "http://github.com/thc-tools/schemas/data-schema.json",
     "description": "This schema describes a database data model, based on domains, entities and associations",
     "default": null,
     "definitions": {   
-        "database": {
+        "data-model": {
             "type": "object",
             "properties": {
                 "guid":{
-                    "$ref":"#/definitions/guid"
+                    "$ref":"common-schema.json#/definitions/guid"
                 },
                 "name": {
                     "type": "string"
@@ -17,247 +16,108 @@
                 "description": {
                     "type": "string"
                 },
-                "entities": {
+                "tables": {
                     "type": "array",
                     "uniqueItems": true,
                     "items": {
-                        "$ref": "#/definitions/entity"
-                    }
-                },
-                "relations": {
-                    "type": "array",
-                    "items": {
-                        "oneOf": [
-                            {"$ref": "#/definitions/association"},
-                            {"$ref":"#/definitions/aggregation"}    
-                        ]
+                        "$ref": "#/definitions/table"
                     }
                 }
             }
         },
-        "entity": {
-            "type": "object",
+        "table":{
+            "allOf": [
+                {"$ref":"common-schema.json#/definitions/entity"}
+            ],
             "properties": {
-                "guid":{
-                    "$ref":"#/definitions/guid"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "fields": {
-                    "type": "array",
-                    "uniqueItems": true,
-                    "items": {
-                        "$ref": "#/definitions/field"
-                    }
-                },
-                "key":{
-                    "$ref":"#/definitions/key"
-                }
-            },
-            "required":[
-                "guid",
-                "name",
-                "description",
-                "key"
-            ]
-        },
-        "association": {
-            "type": "object",
-            "properties": {
-                "guid":{
-                    "$ref":"#/definitions/guid"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "multiplicity":{
-                    "$ref":"#/definitions/multiplicity"
-                },
-                "navigability":{
-                    "$ref":"#/definitions/navigability"
-                },
-                "associates":{
-                    "type":"array",
-                    "uniqueItems": true,
-                    "items":{
-                        "$ref":"#/definitions/guid"
-                    }
-                },
-                "fields":{
-                    "$ref":"#/definitions/field"
-                },
-                "constraints":{
-                    "type":"array",
-                    "items":{
-                        "oneOf":[
-                            {"$ref": "#/definitions/unicityConstraint"}
-                        ]
-                    }
-                }
-
-            },
-            "required": [
-                "guid",
-                "name",
-                "description",
-                "multiplicity",
-                "navigability",
-                "associates"
-            ]
-        },
-        "aggregation":{
-            "type": "object",
-            "properties": {
-                "guid":{
-                    "$ref":"#/definitions/guid"
-                },
-                "name":{
-                    "type":"string"
-                },
-                "description":{
-                    "type":"string"
-                },
-                "owner":{
-                    "$ref":"#/definitions/guid"
-                },
-                "ownee":{
-                    "$ref":"#/definitions/guid"
-                }
-            },
-            "required":[
-                "guid",
-                "name",
-                "description",
-                "owner",
-                "ownee"
-            ]
-        },
-        "multiplicity":{
-            "type":"object",
-            "properties": {
-                "lowerBound":{
-                    "$ref": "#/definitions/multiplicityBoundary"
-                },
-                "upperBound":{
-                    "$ref": "#/definitions/multiplicityBoundary"
-                }
-            }
-        },
-        "multiplicityBoundary":{
-            "oneOf": [
-                {"type":"integer"},
-                {"const": "*"}
-            ]
-        },
-        "navigability":{
-            "type":"object",
-            "properties":{
-              "lowerBound":{
-                "type": ["boolean","null"]
+              "columns":{
+                  "type":"array",
+                  "uniqueItems": true,
+                  "items":{
+                      "$ref": "common-schema.json#/definitions/field"
+                  }
               },
-              "upperBound":{
-                "type": ["boolean","null"]
-              }
-            }
-        },
-        "unicityConstraint":{
-            "type":"array",
-            "uniqueItems": true,
-            "items":{
-                "$ref":"#/definitions/guid"
-            }
-        },
-        "field": {
-            "type": "object",
-            "properties": {
-                "guid":{
-                    "$ref":"#/definitions/guid"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "domain": {
-                     "$ref": "#/definitions/guid"
+              "constraints":{
+                "type":"array",
+                "uniqueItems": true,
+                "items":{ "anyOf": [
+                    {"$ref":"#/definitions/simple"},
+                    {"$ref":"#/definitions/foreignKey"},
+                    {"$ref":"#/definitions/default"},
+                    {"$ref":"#/definitions/check"},
+                    {"$ref":"#/definitions/index"}
+                    ]}
                 }
-            },
-            "required":[
-                "guid",
-                "name",
-                "description",
-                "domain"   
-            ]
-        },
-        "domain": {
-            "type": "object",
-            "properties": {
-                "guid":{
-                    "$ref":"#/definitions/guid"
-                },
-                "name": {
-                    "type": "string",
-                    "pattern": "^DO_[A-Z0-9]+$"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "sqlType": {
-                    "type": "string"
-                },
-                "dataType": {
-                    "type": "string"
-                },
-                "precision": {
-                    "type": "integer"
-                },
-                "scale": {
-                    "type": "integer"
-                },
-                "length": {
-                    "type": "integer"
-                }
-            },
-            "required": [
-                "guid",
-                "name",
-                "description",
-                "sqlType",
-                "dataType"
-            ]
-        },
-        "guid":{
-            "type": "string",
-            "pattern":"[0-9a-f]{32}$"
-        },
-        "key":{
-            "type":"array",
-            "items":{
-                 "$ref":"#/definitions/guid"
             }
-         }
+        },
+        "simple":{
+            "columns":{
+                "oneOf":[
+                        {"type":"array",
+                        "items":{
+                            "$ref":"common-schema.json#/definitions/guid"
+                        }, 
+                        "uniqueItems":true
+                    },
+                    {"$ref":"#common-schema.json#/definitions/guid"}
+            ]},
+            "constraint":{"enum":["notNull", "unique", "primaryKey", "autoIncrement"]},
+            "required":["columns","constraint"]
+        },
+        "foreignKey":{
+            "columns":{
+                "oneOf":[{
+                "type":"array",
+                    "items":[
+                        {"ownColumn":{"$ref":"common-schema.json#/definitions/guid"}, 
+                        "referencedColumn":{"$ref":"common-schema.json#/definitions/guid"}}
+                    ]
+                },
+                {   
+                    "ownColumn":{"$ref":"common-schema.json#/definitions/guid"}, 
+                    "referencedColumn":{"$ref":"common-schema.json#/definitions/guid"}
+                }
+                ]
+            },
+            "referencedTable":{
+                "$ref":"common-schema.json#/definitions/guid"
+            },
+            "required":["columns", "referencedTable"]
+        },
+        "default":{
+            "column":{
+                "$ref":"common-schema.json#/definitions/guid"
+            },
+            "defaultValue":{
+                "type":["string", "number","boolean"]
+            },
+            "required":["column", "defaultValue"]
+        },
+        "check":{
+            "conditions":{"$ref":"common-schema.json#/definitions/condition"},
+            "required":["conditions"]
+        },
+        "index":{
+           "columns":{"oneOf":[
+                {"type":"array",
+                "items":{
+                    "$ref":"common-schema.json#/definitions/guid"
+                }, 
+                "uniqueItems":true
+                },
+                {"$ref":"#common-schema.json#/definitions/guid"}
+                ]
+            },
+            "unique":{
+                "type":"boolean"
+            },
+            "required":["columns", "unique"]
+        }
     },
     "type":"object",
     "properties": {
-        "databases": {
-            "type": "array",
-            "items": {
-                "$ref": "#/definitions/database"
-            }
-        },
-        "domains": {
-            "type": "array",
-            "items": {
-                "$ref": "#/definitions/domain"
-            }
+        "database": {
+                "$ref": "#/definitions/data-model"
         }
     }
 }

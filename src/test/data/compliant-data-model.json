@@ -1,0 +1,140 @@
+{
+    "database":
+        {
+            "guid": "DB_1",
+            "name": "Compliant-db",
+            "description": "a schema-compliant database",
+            "tables": [
+                {
+                    "guid": "FET",
+                    "name": "firstTable",
+                    "description": "the first table of the database",
+                    "fields": [
+                        {
+                            "guid": "FET_ID",
+                            "name": "FET_ID",
+                            "description": "first entity identifier",
+                            "data-definition": "DD_ID"
+                        },
+                        {
+                            "guid":"FET_NAM",
+                            "name": "NAME",
+                            "description": "first entity name",
+                            "data-definition": "DD_LIBELLE"
+                        }
+                    ],
+                    "constraints":[
+                        {"columns": "FET_ID", "constraint":"primaryKey"},
+                        {"columns": "FET_ID", "constraint":"notNull"},
+                        {"columns":["FET_ID", "FET_NAM"], "constraint":"unique"}
+                    ]
+
+                },
+                {
+                    "guid":"SET",
+                    "name": "secondTable",
+                    "description": "the second table of the database",
+                    "fields": [
+                        {
+                            "guid": "SET_ID",
+                            "name": "SET_ID",
+                            "description": "second entity identifier",
+                            "data-definition": "DD_ID"
+                             
+         
+                        },
+                        {
+                            "guid":"SET_NAM",
+                            "name": "NAME",
+                            "description": "second entity name",
+                            "data-definition": "DD_LIBELLE"
+                        }
+                    ],
+                    "constraints":[
+                        {"columns": "SET_ID", "constraint":"primaryKey"},
+                        {"columns": "SET_ID", "constraint":"notNull"},
+                        {"columns":["SET_ID", "SET_NAM"], "constraint":"unique"}
+                    ]
+                },
+                {
+                    "guid":"TET",
+                    "name": "thirdTable",
+                    "description": "the third table of the database",
+                    "fields": [
+                        {
+                            "guid":"TET_ID",
+                            "name": "TET_ID",
+                            "description": "third entity identifier",
+                            "data-definition": "DD_ID"
+                          },
+                        {
+                            "guid":"TET_NAM",
+                            "name": "NAME",
+                            "description": "third entity identifier",
+                            "data-definition": "DD_LIBELLE"
+                        }
+                    ],
+                    "constraints":[
+                        {"columns": "TET_ID", "constraint":"primaryKey"},
+                        {"columns": "TET_ID", "constraint":"notNull"},
+                        {"columns":["TET_ID", "TET_NAM"], "constraint":"unique"}
+                    ]
+                },
+                {
+                    "guid":"FOT",
+                    "name": "fourthTable",
+                    "description": "the fourth table of the database",
+                    "fields": [
+                        {
+                            "guid":"FOT_ID",
+                            "name": "FOT_ID",
+                            "description": "fourth table identifier",
+                            "data-definition": "DD_ID"
+                        },
+                        {
+                            "guid":"FOT_SID",
+                            "name": "FOT_SID",
+                            "description": "fourth table second identifier",
+                            "data-definition": "DD_ID"
+                        },
+                        {
+                            "guid":"FOT_NAM",
+                            "name": "NAME",
+                            "description": "third table libelle",
+                            "data-definition": "DD_LIBELLE"
+                        },
+                        {
+                            "guid":"FOT_COMMENT",
+                            "name": "FOT_COMMENT",
+                            "description": "third table comment",
+                            "data-definition": "DD_LIBELLE"
+                        }
+                    ],
+                    "constraints":[
+                        {"columns": "FOT_ID", "constraint":"primaryKey"},
+                        {"columns": "FOT_ID", "constraint":"notNull"},
+                        {"columns":["FOT_ID", "FOT_NAM"], "constraint":"unique"},
+                        {"columns":{"ownColumn": "FOT_SID", "referencedColumn":"SET_ID"}, "referencedTable":"SET"},
+                        {"column":"FOT_COMMENT", "defaultValue":"Hello, world"}
+                    ]
+                }
+            ]
+        }
+    ,
+    "data-definitions":[
+      {
+        "guid":"DD_ID",
+        "name": "DD_LIBELLE",
+        "description": "data-definition ID",
+        "sqlType": "numeric",
+        "dataType": "Long"
+                            },
+    {
+        "guid": "DD_LIBELLE",
+        "name": "DD_LIBELLE",
+        "description": "data-definition libelle",
+        "sqlType": "varchar",
+        "dataType": "String"
+    }
+    ]
+}
