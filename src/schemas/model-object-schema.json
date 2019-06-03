@@ -1,0 +1,207 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "$id": "http://github.com/thc-tools/schemas/udm.json",
+    "title": "Opiniated object model schema",
+    "description": "This schema describes a model-driven designed object model",
+    "default": null,
+    "definitions": {
+        "domain-model": {
+            "type": "object",
+            "properties": {
+                "aggregates": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/aggregate"
+                    }
+                },
+                "entities": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity"
+                    }
+                },
+                "valueObjects": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/valueObject"
+                    }
+                },
+                "services": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/service"
+                    }
+                },
+                "associations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/association"
+                    }
+                },
+                "specifications": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/specification"
+                    }
+                },
+                "repositories": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/repository"
+                    }
+                }
+            }
+        },
+        "aggregate":{
+            "type":"object",
+            "properties": {
+                "root":{"$ref":"common-schema.json#/definitions/guid"},
+                "entities":{
+                    "type":"array",
+                    "uniqueItems": true,
+                    "items":{
+                        "$ref":"common-schema.json#/definitions/guid"
+                    }
+                },
+                "valueObjects":{
+                    "type":"array",
+                    "uniqueItems": true,
+                    "items": {
+                        "$ref":"common-schema.json#/definitions/guid"
+                    }
+                },
+                "associations":{
+                    "type":"array",
+                    "uniqueItems": true,
+                    "items": {
+                        "$ref":"common-schema.json#/definitions/guid"
+                    }
+                }
+            }
+        },
+        "entity":{
+            "allOf":[{"$ref":"common-schema.json#/definitions/entity"}],
+            "properties": {
+                "fields":{
+                    "type":"array",
+                    "uniqueItems": true,
+                    "items":{
+                        "$ref":"common-schema.json#/definitions/field"
+                    }
+                },
+                "identifier":{
+                    "$ref":"common-schema.json#/definitions/field"
+                }
+            },
+            "required":["identifier"]
+        },
+        "valueObject":{
+            "type":"object",
+            "properties":{
+                "fields":{
+                    "type":"array",
+                    "uniqueItems": true,
+                    "items":{
+                        "$ref":"common-schema.json#/definitions/field"
+                    }
+                }   
+            }
+        },
+        "services":{
+            "type":"object",
+            "properties":{
+                "guid":{"$ref":"common-schema.json#/definitions/guid"},
+                "name":{"type":"string"},
+                "input":{},
+                "output":{}
+            },
+            "required": [
+                "guid",
+                "name"               
+            ]
+        },
+        "specifications":{},
+        "repositories": {},
+        "association": {
+            "type": "object",
+            "properties": {
+                "guid":{
+                    "$ref":"common-schema.json#/definitions/guid"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "multiplicity":{
+                    "$ref":"#/definitions/multiplicity"
+                },
+                "navigability":{
+                    "$ref":"#/definitions/navigability"
+                },
+                "associates":{
+                    "type":"array",
+                    "uniqueItems": true,
+                    "items":{
+                        "$ref":"common-schema.json#/definitions/guid"
+                    }
+                },
+                "fields":{
+                    "$ref":"common-schema.json#/definitions/field"
+                },
+                "constraints":{
+                    "type":"array",
+                    "items":{
+                        "oneOf":[
+                            {"$ref": "#/definitions/unicityConstraint"}
+                        ]
+                    }
+                }
+
+            },
+            "required": [
+                "guid",
+                "name",
+                "description",
+                "multiplicity",
+                "navigability",
+                "associates"
+            ]
+        },
+        "multiplicity":{
+            "type":"object",
+            "properties": {
+                "lowerBound":{
+                    "$ref": "#/definitions/multiplicityBoundary"
+                },
+                "upperBound":{
+                    "$ref": "#/definitions/multiplicityBoundary"
+                }
+            }
+        },
+        "multiplicityBoundary":{
+            "oneOf": [
+                {"type":"integer"},
+                {"const": "*"}
+            ]
+        },
+        "navigability":{
+            "type":"object",
+            "properties":{
+              "lowerBound":{
+                "type": ["boolean","null"]
+              },
+              "upperBound":{
+                "type": ["boolean","null"]
+              }
+            }
+        }
+    },
+    "type": "object",
+    "properties": {
+        "domain":{
+            "$ref":"#/definitions/domain-model"
+        }
+    }
+}

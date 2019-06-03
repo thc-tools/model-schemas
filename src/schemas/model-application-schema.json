@@ -1,0 +1,27 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "$id": "http://github.com/thc-tools/schemas/udm.json",
+    "title": "Opiniated application model schema",
+    "description": "This schema describes a domain-driven design application model",
+    "default": null,
+    "definitions": {},
+    "type":"object",
+    "properties": {
+        "application-model":{
+            "type":"object",
+            "properties":{
+                "application-models":{
+                    "type":"array",
+                    "uniqueItems": true,
+                    "items":{
+                        "type":"object", 
+                        "properties":{
+                            "domain-model":{"$ref":"model-object-schema.json#/definitions/domain-model"},
+                            "data-model":{"$ref":"model-data-schema.json#/definitions/data-model"}
+                        }
+                    }
+                }       
+            }
+        }
+    }
+}
