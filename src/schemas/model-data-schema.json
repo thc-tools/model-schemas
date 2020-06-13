@@ -53,12 +53,16 @@
                     "items": {
                         "$ref": "#/definitions/field"
                     }
+                },
+                "key":{
+                    "$ref":"#/definitions/key"
                 }
             },
             "required":[
                 "guid",
                 "name",
-                "description"
+                "description",
+                "key"
             ]
         },
         "association": {
@@ -83,9 +87,21 @@
                     "type":"array",
                     "uniqueItems": true,
                     "items":{
-                       "$ref":"#/definitions/guid"                  
+                        "$ref":"#/definitions/guid"
+                    }
+                },
+                "fields":{
+                    "$ref":"#/definitions/field"
+                },
+                "constraints":{
+                    "type":"array",
+                    "items":{
+                        "oneOf":[
+                            {"$ref": "#/definitions/unicityConstraint"}
+                        ]
                     }
                 }
+
             },
             "required": [
                 "guid",
@@ -143,12 +159,19 @@
         "navigability":{
             "type":"object",
             "properties":{
-              "lowerEnd":{
+              "lowerBound":{
                 "type": ["boolean","null"]
               },
-              "upperEnd":{
+              "upperBound":{
                 "type": ["boolean","null"]
               }
+            }
+        },
+        "unicityConstraint":{
+            "type":"array",
+            "uniqueItems": true,
+            "items":{
+                "$ref":"#/definitions/guid"
             }
         },
         "field": {
@@ -214,7 +237,13 @@
         "guid":{
             "type": "string",
             "pattern":"[0-9a-f]{32}$"
-        }
+        },
+        "key":{
+            "type":"array",
+            "items":{
+                 "$ref":"#/definitions/guid"
+            }
+         }
     },
     "type":"object",
     "properties": {
